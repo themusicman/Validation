@@ -1,0 +1,47 @@
+<?php
+
+//Basic Usage:
+
+//1. Pass the data you want to validate to the validate class when you instantiate it.
+
+$data = new Validate(array('username' => ' user123'));
+
+//2. Add a filter to remove whitespace before validation is run.
+
+$data->add_pre_filter(new Filter_Trim)
+	 ->for_field('username');
+
+//3. Add some validation to ensure only letters and numbers are contained in the username string.
+
+$data->add_alpha_numeric_validation()
+	 ->for_field('username')
+	 ->with_message('The :label field can only contain letters and numbers.');
+	
+	/*
+		The :label is the field name.  You can override the defualt by passing an optional array to the with_message method.
+		Ex. with_message('The :label field can only contain letters and numbers.', array(':label' => 'new label name'));
+	*/
+
+
+//4. Add some validation to ensure that the username string is a minimum of three characters in length.
+
+$data->add_min_length_validation(3) //pass the minimum number of characters to the add_min_length_validation method
+	 ->for_field('username')
+	 ->with_message('The :label field must be at :length characters.', array(':length' => 3));
+
+
+//5. Run the validation on the data.
+
+if ($data->check())
+{
+	echo "Success!";
+}
+else
+{
+	echo "Failure!?!";
+	
+	//get the error messages
+	$errors = $data->get_errors();
+}
+
+?>
