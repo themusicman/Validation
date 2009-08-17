@@ -2,7 +2,7 @@
 
 class Validation_Data extends ArrayObject  {
 
-	public function __construct($data=array())
+	public function __construct($data = array())
 	{
 		ArrayObject::__construct($data, ArrayObject::ARRAY_AS_PROPS);	
 	}
@@ -19,7 +19,7 @@ class Validation_Data extends ArrayObject  {
 	}
 
 	/**
-	 * Get a variable from the configuration or return the default value.
+	 * Get a variable from the data array or return the default value.
 	 *
 	 * @param   string   array key
 	 * @param   mixed    default value
@@ -31,7 +31,7 @@ class Validation_Data extends ArrayObject  {
 	}
 
 	/**
-	 * Sets a value in the configuration array.
+	 * Sets a value in the data array.
 	 *
 	 * @param   string   array key
 	 * @param   mixed    array value

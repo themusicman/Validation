@@ -44,4 +44,66 @@ else
 	$errors = $data->get_errors();
 }
 
+
+/*
+ * Extra: you can run certain validations on different events. This is a simple and incomplete example, but 
+ * the basic flow is there.
+ */
+
+class User extends Model {
+	
+	
+	public function check_username($username) 
+	{
+		return (in_array($username, $this->get_usernames())) ? TRUE : FALSE;
+	}
+	
+	public function save() 
+	{
+		$data = new Validate(array('username' => ' user123'));
+
+		//this will only run on the create event
+		$data->add_callback_validation(array($this, 'check_username')) 
+			 ->for_field('username')
+			 ->with_message('The :label field must be unique.')
+			 ->on('create');
+		
+		
+		//if no on events are specified it will run on all events
+		$data->add_min_length_validation(8) 
+			 ->for_field('username')
+			 ->with_message('The :label field must be at least :length characters in length.', array(':length' => 8));
+		
+			
+		if ($this->is_new_record)
+		{
+			if ($data->check('create'))
+			{
+				$this->create($data);
+			}
+		}
+		else
+		{
+			if ($data->check('update'))
+			{
+				$this->update($data);
+			}
+		}
+		
+		if ( ! $data->is_valid())
+		{
+			return $data->get_errors();
+		}
+	}
+	
+	
+}
+
+
+
+//5. Run the validation on the data.
+
+
+
+
 ?>

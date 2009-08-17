@@ -488,8 +488,7 @@ class Validate {
 	
 	public function add_validator($validator) 
 	{
-		$this->_validators[] = $validator;
-		
+		return $this->_validators[] = $validator;
 	} 
 	
 	
@@ -504,17 +503,19 @@ class Validate {
 	
 	public function check($event_name = '*') 
 	{
+		//run the pre_filters
 		foreach ($this->_pre_filters as $filter) 
 		{
 			$filter->execute($this->_coordinator, $event_name);
 		}
 		
+		//run the validators
 		foreach ($this->_validators as $validator) 
 		{
 			$validator->validate($this->_coordinator, $event_name);
 		}
 		
-		
+		//run the post_filters
 		foreach ($this->_post_filters as $filter) 
 		{
 			$filter->execute($this->_coordinator, $event_name);

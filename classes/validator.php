@@ -66,7 +66,11 @@ class Validator {
 		return $this;
 		
 	} 
-
+	
+	/*
+		TODO move the message storage to the specification and add default messages.
+	*/
+	
 	
 	/**
 	 * for_field
